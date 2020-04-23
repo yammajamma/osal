@@ -63,7 +63,38 @@ void TestSymbolApi(void)
    /* If the module loader is not present, generate an N/A test case just to indicate that the test ran */
    UtAssert_True(1, "Module loader not present");
 #endif
+
 } /* end TestSymbolApi */
+
+
+void Test_OS_IdentifyObject(void)
+{
+    /*
+     * Test Case For:
+     * int32 OS_IdentifyObject(void)
+     */
+    int32 expected = 99999999 >> OS_OBJECT_TYPE_SHIFT;
+    int32 actual   = OS_IdentifyObject(99999999);
+
+    printf ("\n EXAMPLE TEST - actual: %u    expected: %u \n", actual, expected);
+
+    UtAssert_True(actual == expected, "OS_IdentifyObject() (%ld) == %ld", (long)actual, (long)expected);
+}
+
+void Test_OS_ConvertToArrayIndex(void)
+{
+    /*
+     * Test Case For:
+     * int32 OS_ConvertToArrayIndex(void)
+     */
+    uint32 TestArrayIndex; 
+    int32 expected = OS_SUCCESS;
+    int32 actual   = OS_ConvertToArrayIndex(0x0004FFFF, &TestArrayIndex);
+ 
+    printf ("\n EXAMPLE TEST - actual: %u    expected: %u \n", actual, TestArrayIndex);
+
+    UtAssert_True(actual == expected, "OS_ConvertToArrayIndex() (%ld) == %ld", (long)actual, (long)expected);
+}
 
 
 void UtTest_Setup(void)
@@ -77,5 +108,7 @@ void UtTest_Setup(void)
      * Register the test setup and check routines in UT assert
      */
     UtTest_Add(TestSymbolApi, NULL, NULL, "SymbolApiTest");
+    UtTest_Add(Test_OS_IdentifyObject, NULL, NULL, "Test_OS_IdentifyObject");
+    UtTest_Add(Test_OS_ConvertToArrayIndex, NULL, NULL, "Test_OS_ConvertToArrayIndex");
 }
 
